@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Transition</title>
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="animate.css">
+</head>
+<body>
+
+    <div id="demo" class="demo">
+        Demo
+    </div>
+
+    <script src="js/index.js"></script>
+    <script>
+        const el = document.getElementById('demo');
+        const bounceIn = createTranstion({ name: 'bounce-in', active: 'animated bounceIn' });
+
+        bounceIn(el);
+        setTimeout(() => transition(el, 'scale-out'), 750);
+    </script>
+</body>
+</html>

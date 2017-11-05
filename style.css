@@ -1,0 +1,15 @@
+* { box-sizing: border-box; }
+html { font: 100%/1.5 sans-serif; }
+
+.demo {
+    margin: 2em auto;
+    padding: 1em;
+    color: #fff;
+    background-color: #333;
+    text-align: center;
+    width: 200px;
+}
+
+.scale-out-active { transition: transform 1s cubic-bezier(0.6, -0.28, 0.735, 0.045); }
+.scale-out-from { transform: scale(1, 1); }
+.scale-out-to { transform: scale(0, 0); }
