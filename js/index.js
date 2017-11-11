@@ -1,4 +1,6 @@
 const tick = requestAnimationFrame;
+const isString = val => typeof val === 'string';
+const noop = () => {};
 const toMs = s => Number(s.slice(0, -1)) * 1000;
 const toMsArray = val => val.split(', ').map(toMs);
 const defaultTransitionClasses = (name = 't') => ({
@@ -30,11 +32,30 @@ function once(fn) {
 }
 
 function createTransitionClasses(opts) {
-    const classes = defaultTransitionClasses(opts && opts.name || opts);
+    const name = isString(opts) ? opts : opts.name;
+    const defaultClasses = defaultTransitionClasses(name);
 
-    return (typeof opts === 'object')
-        ? Object.assign(classes, opts)
-        : classes;
+    if (isString(opts)) {
+        return defaultClasses;
+    }
+
+    return {
+        active: opts.activeClass || defaultClasses.active,
+        from: opts.fromClass || defaultClasses.from,
+        to: opts.toClass || defaultClasses.to
+    };
+}
+
+function getTransitionHooks(opts) {
+    if (isString(opts)) {
+        return { before: noop, start: noop, after: noop };
+    }
+
+    return {
+        before: opts.before || noop,
+        start: opts.start || noop,
+        after: opts.after || noop,
+    }
 }
 
 function getDurationInfo(style, type) {
@@ -80,26 +101,33 @@ function onceTrantionEnd(el, fn) {
     el.addEventListener(eventType, onEnd);
 }
 
-function runTransition(el, classes) {
+function runTransition(el, classes, hooks) {
+    hooks.before(el);
     addClass(el, classes.active);
     addClass(el, classes.from);
 
     onceTrantionEnd(el, once(() => {
         removeClass(el, classes.to);
         removeClass(el, classes.active);
+        hooks.after(el);
     }));
 
     tick(() => {
         removeClass(el, classes.from);
         addClass(el, classes.to);
+        hooks.start(el);
     });
 }
 
-function createTranstion(name) {
-    const classes = createTransitionClasses(name);
-    return el => runTransition(el, classes);
+function createTranstion(config) {
+    const classes = createTransitionClasses(config);
+
+    return (el, opts) => {
+        const hooks = getTransitionHooks(opts || config);
+        runTransition(el, classes, hooks);
+    };
 }
 
-function transition(el, name) {
-    createTranstion(name)(el);
+function transition(el, config) {
+    createTranstion(config)(el);
 }

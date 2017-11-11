@@ -17,11 +17,15 @@
 
     <script src="js/index.js"></script>
     <script>
-        const el = document.getElementById('demo');
-        const bounceIn = createTranstion({ name: 'bounce-in', active: 'animated bounceIn' });
+        const element = document.getElementById('demo');
+        const bounceIn = createTranstion({
+            name: 'bounce-in',
+            activeClass: 'animated bounceIn'
+        });
 
-        bounceIn(el);
-        setTimeout(() => transition(el, 'scale-out'), 750);
+        bounceIn(element, {
+            after: el => transition(el, 'scale-out')
+        });
     </script>
 </body>
 </html>
