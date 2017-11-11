@@ -1,0 +1,16 @@
+{
+    "extends": "airbnb-base",
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "rules": {
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "max-len": ["error", 100, 2, { "ignoreComments": true }],
+        "comma-dangle": ["error", "never"],
+        "eqeqeq": ["error", "smart"],
+        "no-empty": ["error", { "allowEmptyCatch": true }],
+        "no-unused-vars": ["warn"],
+        "no-param-reassign": ["error", { "props": true, "ignorePropertyModificationsFor": ["el"] }]
+    }
+}

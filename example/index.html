@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Transition</title>
 
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="animate.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/animate.css">
 </head>
 <body>
 
@@ -15,16 +15,16 @@
         Demo
     </div>
 
-    <script src="js/index.js"></script>
+    <script src="../dist/transition.js"></script>
     <script>
         const element = document.getElementById('demo');
-        const bounceIn = createTranstion({
+        const bounceIn = transition.create({
             name: 'bounce-in',
             activeClass: 'animated bounceIn'
         });
 
         bounceIn(element, {
-            after: el => transition(el, 'scale-out')
+            after: el => transition.run(el, 'scale-out')
         });
     </script>
 </body>

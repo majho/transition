@@ -1,0 +1,35 @@
+{
+  "name": "transition",
+  "version": "0.1.0",
+  "description": "Helps you apply css transition/animation to an element",
+  "main": "dist/transition.js",
+  "module": "src/index.js",
+  "scripts": {
+    "lint": "eslint src",
+    "clean": "rm -rf dist",
+    "bundle": "rollup -c",
+    "minify": "uglifyjs dist/transition.js -o dist/transition.js --compress --mangle",
+    "build": "npm run lint && npm run clean && npm run bundle && npm run minify",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "transition",
+    "animation"
+  ],
+  "author": {
+    "name": "Martin Johansson",
+    "url": "http://majho.se/"
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.0",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^11.3.1",
+    "eslint-plugin-import": "^2.7.0",
+    "rollup": "^0.47.6",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-post-replace": "^1.0.0",
+    "uglify-js": "^3.0.27"
+  }
+}
