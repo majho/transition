@@ -70,24 +70,34 @@ function getTransitionInfo(el) {
 function onceTrantionEnd(el, fn) {
     const { type, duration, count } = getTransitionInfo(el);
     const eventType = type === 'transition' ? 'transitionend' : 'animationend';
+    let timer = null;
     let ended = 0;
 
-    function callback() {
+    function removeListener() {
         // eslint-disable-next-line no-use-before-define
         el.removeEventListener(eventType, onEnd);
+        clearTimeout(timer);
+        timer = null;
+    }
+
+    function callback() {
+        removeListener();
         fn();
     }
+
     function onEnd(e) {
         if (e.target !== el) return;
         ended += 1;
         if (ended >= count) callback();
     }
 
-    setTimeout(() => {
+    timer = setTimeout(() => {
         if (ended < count) callback();
     }, duration);
 
     el.addEventListener(eventType, onEnd);
+
+    return removeListener;
 }
 
 function runTransition(el, classes, hooks) {
@@ -95,17 +105,23 @@ function runTransition(el, classes, hooks) {
     addClass(el, classes.active);
     addClass(el, classes.from);
 
-    onceTrantionEnd(el, once(() => {
-        removeClass(el, classes.to);
-        removeClass(el, classes.active);
-        hooks.after(el);
-    }));
-
     tick(() => {
         removeClass(el, classes.from);
         addClass(el, classes.to);
         hooks.start(el);
     });
+
+    const end = once(() => {
+        removeClass(el, classes.to);
+        removeClass(el, classes.active);
+        hooks.after(el);
+    });
+    const cancel = onceTrantionEnd(el, end);
+
+    return () => {
+        cancel();
+        end();
+    };
 }
 
 export function createTransition(config) {
@@ -113,10 +129,10 @@ export function createTransition(config) {
 
     return (el, opts) => {
         const hooks = getTransitionHooks(opts || config);
-        runTransition(el, classes, hooks);
+        return runTransition(el, classes, hooks);
     };
 }
 
 export default function transition(el, config) {
-    createTransition(config)(el);
+    return createTransition(config)(el);
 }
