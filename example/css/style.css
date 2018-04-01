@@ -13,3 +13,39 @@ html { font: 100%/1.5 sans-serif; }
 .scale-out-active { transition: transform 1s cubic-bezier(0.6, -0.28, 0.735, 0.045); }
 .scale-out-from { transform: scale(1, 1); }
 .scale-out-to { transform: scale(0, 0); }
+
+.hidden { display: none; }
+
+.toggle-target {
+    padding: 0 20px;
+    width: 300px;
+    color: #fff;
+    background-color: #333;
+    overflow: hidden;
+}
+
+.toggle-target > :first-child { margin-top: 20px; }
+.toggle-target > :last-child  { margin-bottom: 20px; }
+
+.collapse-active,
+.expande-active {
+    will-change: height;
+    transition: height 300ms ease-in-out;
+}
+
+.collapse-active > *,
+.expande-active > * {
+    will-change: opacity;
+    transition-property: opacity;
+    transition-duration: inherit;
+    transition-timing-function: inherit;
+}
+
+.collapse-from { height: auto; }
+.collapse-to   { height: 0; }
+
+.expande-from { height: 0 !important; }
+.expande-to   { height: auto; }
+
+.collapse-to > *,
+.expande-from > * { opacity: 0 }

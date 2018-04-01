@@ -15,17 +15,66 @@
         Demo
     </div>
 
+    <div class="toggle-demo">
+        <button type="button" class="toggle-button">Toggle</button>
+        <div class="toggle-target hidden">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis enim laborum ipsa soluta ea vero possimus! Quis pariatur ut aliquam sit odio, vero earum ipsam minima, ullam, commodi labore aliquid!</p>
+        </div>
+
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis enim laborum ipsa soluta ea vero possimus! Quis pariatur ut aliquam sit odio, vero earum ipsam minima, ullam, commodi labore aliquid!</p>
+    </div>
+
     <script src="../dist/transition.js"></script>
     <script>
-        const element = document.getElementById('demo');
-        const bounceIn = transition.create({
-            name: 'bounce-in',
-            activeClass: 'animated bounceIn'
+    // (function demo() {
+    //     const element = document.getElementById('demo');
+    //     const bounceIn = transition.create({
+    //         name: 'bounce-in',
+    //         activeClass: 'animated bounceIn'
+    //     });
+
+    //     bounceIn(element, {
+    //         after: el => transition.run(el, 'scale-out')
+    //     });
+    // })();
+
+    (function toggle() {
+        // Elements
+        const button = document.querySelector('.toggle-button');
+        const target = document.querySelector('.toggle-target');
+        // Transtions
+        const collapse = transition.create({
+            name: 'collapse',
+            before: (el) => { el.style.height = `${el.offsetHeight}px`; },
+            start:  (el) => { el.style.height = null; },
+            after:  (el) => { el.classList.add('hidden')}
+        });
+        const expande = transition.create({
+            name: 'expande',
+            before: (el) => {
+                el.classList.remove('hidden');
+                el.style.height = `${el.offsetHeight}px`;
+            },
+            after: (el) => { el.style.height = null; }
         });
 
-        bounceIn(element, {
-            after: el => transition.run(el, 'scale-out')
+        // State
+        let visible = !target.classList.contains('hidden');
+        let open;
+        let close;
+
+        button.addEventListener('click', () => {
+            if (visible) {
+                open && open();
+                close = collapse(target);
+            } else {
+                close && close();
+                open = expande(target);
+            }
+
+            visible = !visible;
         });
+    })();
     </script>
 </body>
 </html>
