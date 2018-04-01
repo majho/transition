@@ -10,18 +10,18 @@ export function once(fn) {
     };
 }
 
-export function toggleClass(el, name, add) {
-    if (name.indexOf(' ') !== -1) {
-        name.trim().split(/\s+/).forEach(n => el.classList.toggle(n, add));
+function forEachClass(el, classes, method) {
+    if (classes.indexOf(' ') !== -1) {
+        classes.trim().split(/\s+/).forEach(name => el.classList[method](name));
     } else {
-        el.classList.toggle(name, add);
+        el.classList[method](classes);
     }
 }
 
 export function addClass(el, name) {
-    toggleClass(el, name, true);
+    forEachClass(el, name, 'add');
 }
 
 export function removeClass(el, name) {
-    toggleClass(el, name, false);
+    forEachClass(el, name, 'remove');
 }
