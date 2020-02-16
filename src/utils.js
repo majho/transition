@@ -1,5 +1,5 @@
 export const tick = requestAnimationFrame;
-export const isString = val => typeof val === 'string';
+export const isString = (val) => typeof val === 'string';
 export const noop = () => {};
 
 export function once(fn) {
@@ -12,7 +12,7 @@ export function once(fn) {
 
 function forEachClass(el, classes, method) {
     if (classes.indexOf(' ') !== -1) {
-        classes.trim().split(/\s+/).forEach(name => el.classList[method](name));
+        classes.trim().split(/\s+/).forEach((name) => el.classList[method](name));
     } else {
         el.classList[method](classes);
     }

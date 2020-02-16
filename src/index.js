@@ -4,15 +4,15 @@ import {
     once,
     addClass,
     removeClass,
-    isString
+    isString,
 } from './utils';
 
-const toMs = s => Number(s.slice(0, -1)) * 1000;
-const toMsArray = val => val.split(', ').map(toMs);
+const toMs = (s) => Number(s.slice(0, -1)) * 1000;
+const toMsArray = (val) => val.split(', ').map(toMs);
 const defaultTransitionClasses = (name = 't') => ({
     active: `${name}-active`,
     from: `${name}-from`,
-    to: `${name}-to`
+    to: `${name}-to`,
 });
 
 function createTransitionClasses(opts) {
@@ -26,7 +26,7 @@ function createTransitionClasses(opts) {
     return {
         active: opts.activeClass || defaultClasses.active,
         from: opts.fromClass || defaultClasses.from,
-        to: opts.toClass || defaultClasses.to
+        to: opts.toClass || defaultClasses.to,
     };
 }
 
@@ -38,7 +38,7 @@ function getTransitionHooks(opts) {
     return {
         before: opts.before || noop,
         start: opts.start || noop,
-        after: opts.after || noop
+        after: opts.after || noop,
     };
 }
 
@@ -54,7 +54,7 @@ function getTransitionInfo(el) {
     const style = window.getComputedStyle(el);
     const transitionTime = getDurationInfo(style, 'transition');
     const animationTime = getDurationInfo(style, 'animation');
-    const getProp = prop => (
+    const getProp = (prop) => (
         (transitionTime.total >= animationTime.total)
             ? transitionTime[prop]
             : animationTime[prop]
@@ -63,21 +63,22 @@ function getTransitionInfo(el) {
     return {
         count: getProp('durations').length,
         duration: getProp('total'),
-        type: getProp('type')
+        type: getProp('type'),
     };
 }
 
 function onceTrantionEnd(el, fn) {
-    const { type, duration, count } = getTransitionInfo(el);
+    // const { type, duration, count } = getTransitionInfo(el);
+    const { type, count } = getTransitionInfo(el);
     const eventType = type === 'transition' ? 'transitionend' : 'animationend';
-    let timer = null;
+    // let timer = null;
     let ended = 0;
 
     function removeListener() {
         // eslint-disable-next-line no-use-before-define
         el.removeEventListener(eventType, onEnd);
-        clearTimeout(timer);
-        timer = null;
+        // clearTimeout(timer);
+        // timer = null;
     }
 
     function callback() {
@@ -91,9 +92,9 @@ function onceTrantionEnd(el, fn) {
         if (ended >= count) callback();
     }
 
-    timer = setTimeout(() => {
-        if (ended < count) callback();
-    }, duration);
+    // timer = setTimeout(() => {
+    //     if (ended < count) callback();
+    // }, duration);
 
     el.addEventListener(eventType, onEnd);
 
@@ -124,7 +125,7 @@ function runTransition(el, classes, hooks) {
     };
 }
 
-export function createTransition(config) {
+function createTransition(config) {
     const classes = createTransitionClasses(config);
 
     return (el, opts) => {
@@ -133,6 +134,11 @@ export function createTransition(config) {
     };
 }
 
-export default function transition(el, config) {
+function transition(el, config) {
     return createTransition(config)(el);
 }
+
+export {
+    createTransition as create,
+    transition as run,
+};
