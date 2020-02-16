@@ -8,8 +8,7 @@
     "lint": "eslint src",
     "clean": "rm -rf dist",
     "bundle": "rollup -c",
-    "minify": "uglifyjs dist/transition.js -o dist/transition.js --compress --mangle",
-    "build": "npm run lint && npm run clean && npm run bundle && npm run minify",
+    "build": "npm run lint && npm run clean && npm run bundle",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -22,14 +21,15 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-preset-env": "^1.6.0",
-    "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^11.3.1",
-    "eslint-plugin-import": "^2.7.0",
-    "rollup": "^0.47.6",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-post-replace": "^1.0.0",
-    "uglify-js": "^3.0.27"
+    "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "eslint": "^6.1.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "rimraf": "^3.0.2",
+    "rollup": "^1.31.1",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-terser": "^5.2.0"
   }
 }
